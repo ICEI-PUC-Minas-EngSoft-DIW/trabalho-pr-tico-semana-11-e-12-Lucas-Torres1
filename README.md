@@ -6,8 +6,8 @@ Para esse projeto, além de mudarmos o JSON para o JSON Server, vamos permitir o
 
 ## Informações do trabalho
 
-- Nome:
-- Matricula:
+- Nome: Lucas Torres Neves
+- Matricula: 905488
 - Proposta de projeto escolhida:
 - Breve descrição sobre seu projeto:
 
