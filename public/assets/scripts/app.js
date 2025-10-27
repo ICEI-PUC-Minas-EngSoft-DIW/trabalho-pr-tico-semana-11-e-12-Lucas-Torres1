@@ -6,7 +6,7 @@ const itens = {
     resumo: "Como o Trap surgiu nos EUA e virou fenômeno global.",
     descricao:
       "O Trap surgiu nos Estados Unidos no início dos anos 2000, principalmente no sul, com artistas como T.I., Gucci Mane e Young Jeezy. O nome vem das 'trap houses', locais onde ocorriam atividades ilegais e que inspiraram as letras. O gênero evoluiu misturando batidas eletrônicas com influências do hip-hop e hoje é uma das principais vertentes musicais globais.",
-    imagem: "/images/origemtrap.png",
+    imagem: "/public/images/origemtrap.png",
     imagemAlt: "Representação da origem do Trap",
     info: [
       { label: "Região de origem", value: "Sul dos EUA" },
@@ -24,7 +24,7 @@ const itens = {
     resumo: "Nomes que impulsionam o Trap nacional.",
     descricao:
       "No Brasil, nomes como Matuê, Teto, Veigh, Yunk Vino, Japa e KayBlack estão entre os principais representantes do Trap moderno. Eles misturam influências do rap americano com a sonoridade local, criando produções que conquistam milhões de ouvintes nas plataformas digitais.",
-    imagem: "/images/fototrapers.PNG",
+    imagem: "/public/images/fototrapers.PNG",
     imagemAlt: "Artistas brasileiros de Trap",
     info: [
       { label: "Cenário", value: "Brasil" },
@@ -75,7 +75,7 @@ const itens = {
     resumo: "Artistas brasileiros mais ouvidos do gênero Trap nas plataformas digitais.",
     descricao:
       "Confira abaixo os principais nomes do Trap nacional e suas canções mais escutadas nas plataformas digitais.",
-    imagem: "/images/top20.jpg",
+    imagem: "/public/images/top20.jpg",
     imagemAlt: "Ranking dos mais ouvidos",
     info: [
       { label: "Fonte", value: "Spotify, YouTube Music e RapMídia" },
