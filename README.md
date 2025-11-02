@@ -8,8 +8,8 @@ Para esse projeto, além de mudarmos o JSON para o JSON Server, vamos permitir o
 
 - Nome: Lucas Torres Neves
 - Matricula: 905488
-- Proposta de projeto escolhida:
-- Breve descrição sobre seu projeto:
+- Proposta de projeto escolhida: Coleção de faixas
+- Breve descrição sobre seu projeto: Site com faixas e informações sobre trap/rap
 
 **Print dos testes da API com Postman ou similar**
 
