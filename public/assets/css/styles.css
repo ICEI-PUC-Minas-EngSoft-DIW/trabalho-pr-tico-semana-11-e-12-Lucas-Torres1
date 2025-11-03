@@ -128,7 +128,6 @@ header h1 {
   border-color: rgba(255,255,255,0.45);
 }
 
-/* Form principal */
 #form {
   width: 100%;
   max-width: 780px;
@@ -141,7 +140,7 @@ header h1 {
   border: 1px solid rgba(255,255,255,0.05);
 }
 
-/* Rótulos e campos */
+
 .form-label {
   display: flex;
   flex-direction: column;
@@ -169,7 +168,7 @@ header h1 {
   box-shadow: 0 0 0 3px rgba(29,185,84,0.4);
 }
 
-/* Checkbox */
+
 .form-check {
   display: flex;
   align-items: center;
@@ -186,7 +185,7 @@ header h1 {
   transform: scale(1.1);
 }
 
-/* Botões */
+
 .btn {
   border-radius: 12px;
   padding: 10px 16px;
@@ -220,7 +219,7 @@ header h1 {
   transform: translateY(-2px);
 }
 
-/* Responsivo */
+
 @media (max-width: 768px) {
   #form {
     padding: 28px 20px;

@@ -90,6 +90,7 @@
       if(!payload.id || !payload.titulo){ alert('Preencha ID e Título.'); return; }
       const method = id ? 'PUT' : 'POST';
       const url = id ? `${API}/${id}` : API;
+      console.log('Salvar ->', { metodo: id ? 'PUT' : 'POST', url: id ? `${API}/${id}` : API });
 
       const resp = await fetch(url, {
         method,
