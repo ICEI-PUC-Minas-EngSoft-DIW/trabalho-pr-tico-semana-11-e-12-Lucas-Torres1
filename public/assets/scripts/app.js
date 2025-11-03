@@ -1,3 +1,8 @@
+const API_BASE = 'http://localhost:3001/itens';
+const FALLBACK_IMG = 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450"><rect width="100%" height="100%" fill="#e0e0e0"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="24" fill="#666">imagem não encontrada</text></svg>`);
+async function fetchAll(){ const r=await fetch(API_BASE); if(!r.ok) throw new Error('Falha ao carregar itens'); return r.json(); }
+async function fetchById(id){ const r=await fetch(`${API_BASE}/${id}`); if(!r.ok) throw new Error('Item não encontrado'); return r.json(); }
+
 const itens = {
   "origem-trap": {
     id: "origem-trap",
@@ -6,7 +11,7 @@ const itens = {
     resumo: "Como o Trap surgiu nos EUA e virou fenômeno global.",
     descricao:
       "O Trap surgiu nos Estados Unidos no início dos anos 2000, principalmente no sul, com artistas como T.I., Gucci Mane e Young Jeezy. O nome vem das 'trap houses', locais onde ocorriam atividades ilegais e que inspiraram as letras. O gênero evoluiu misturando batidas eletrônicas com influências do hip-hop e hoje é uma das principais vertentes musicais globais.",
-    imagem: "/public/images/origemtrap.png",
+    imagem: "./images/origemtrap.png",
     imagemAlt: "Representação da origem do Trap",
     info: [
       { label: "Região de origem", value: "Sul dos EUA" },
@@ -24,7 +29,7 @@ const itens = {
     resumo: "Nomes que impulsionam o Trap nacional.",
     descricao:
       "No Brasil, nomes como Matuê, Teto, Veigh, Yunk Vino, Japa e KayBlack estão entre os principais representantes do Trap moderno. Eles misturam influências do rap americano com a sonoridade local, criando produções que conquistam milhões de ouvintes nas plataformas digitais.",
-    imagem: "/public/images/fototrapers.PNG",
+    imagem: "./images/fototrapers.PNG",
     imagemAlt: "Artistas brasileiros de Trap",
     info: [
       { label: "Cenário", value: "Brasil" },
@@ -75,7 +80,7 @@ const itens = {
     resumo: "Artistas brasileiros mais ouvidos do gênero Trap nas plataformas digitais.",
     descricao:
       "Confira abaixo os principais nomes do Trap nacional e suas canções mais escutadas nas plataformas digitais.",
-    imagem: "/public/images/top20.jpg",
+    imagem: "./images/top20.jpg",
     imagemAlt: "Ranking dos mais ouvidos",
     info: [
       { label: "Fonte", value: "Spotify, YouTube Music e RapMídia" },
@@ -147,6 +152,7 @@ function renderCarousel(itemsArr) {
     img.alt = item.imagemAlt;
     img.style.maxHeight = "420px";
     img.style.objectFit = "cover";
+    img.onerror = function(){ this.onerror=null; this.src = FALLBACK_IMG; };
 
     const caption = createEl(
       "div",
@@ -175,6 +181,7 @@ function renderCards(itemsArr) {
     const img = createEl("img", "img-cover mb-3");
     img.src = item.imagem;
     img.alt = item.imagemAlt;
+    img.onerror = function(){ this.onerror=null; this.src = FALLBACK_IMG; };
     imgLink.appendChild(img);
     card.appendChild(imgLink);
 
@@ -208,6 +215,7 @@ function renderDetalhes() {
   const img = createEl("img", "img-cover mb-3");
   img.src = item.imagem;
   img.alt = item.imagemAlt;
+  img.onerror = function(){ this.onerror=null; this.src = FALLBACK_IMG; };
   card1.appendChild(img);
 
   const desc = createEl("p", "", item.descricao);
@@ -260,7 +268,54 @@ function renderDetalhes() {
   infoC.appendChild(col1);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  if (document.getElementById("cardsContainer")) renderHome();
-  if (document.getElementById("info-container")) renderDetalhes();
+function mergeById(baseArr, apiArr){
+  const map = new Map();
+  baseArr.forEach(i => map.set(i.id, i));
+  apiArr.forEach(i => { if (!map.has(i.id)) map.set(i.id, i); });
+  return Array.from(map.values());
+}
+
+async function renderHomeCombined(){
+  const locais = Object.values(itens);
+  try{
+    const api = await fetchAll();
+    const lista = mergeById(locais, Array.isArray(api) ? api : []);
+    const destaques = lista.filter(i => i && i.destaque);
+    renderCarousel(destaques);
+    renderCards(lista);
+  }catch{
+    renderCarousel(locais.filter(i=>i.destaque));
+    renderCards(locais);
+  }
+}
+
+async function renderDetalhesHybrid(){
+  const id = getQueryId();
+  if(!id) return;
+  const local = itens[id];
+  if (local) { renderDetalhes(); return; }
+  try{
+    const item = await fetchById(id);
+    const titulo = document.getElementById("titulo-item");
+    const infoC = document.getElementById("info-container");
+    if (!item || !infoC) return;
+    if (titulo) titulo.textContent = item.titulo || '(sem título)';
+    infoC.innerHTML = "";
+    const col1 = createEl("div", "col-12");
+    const card1 = createEl("div", "card bg-dark text-white p-4");
+    const img = createEl("img", "img-cover mb-3");
+    img.src = item.imagem || FALLBACK_IMG;
+    img.alt = item.imagemAlt || "";
+    img.onerror = function(){ this.onerror=null; this.src = FALLBACK_IMG; };
+    card1.appendChild(img);
+    const pDesc = createEl("p", "", item.descricao || "");
+    card1.appendChild(pDesc);
+    col1.appendChild(card1);
+    infoC.appendChild(col1);
+  }catch{}
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  if (document.getElementById("cardsContainer")) await renderHomeCombined();
+  if (document.getElementById("info-container")) await renderDetalhesHybrid();
 });

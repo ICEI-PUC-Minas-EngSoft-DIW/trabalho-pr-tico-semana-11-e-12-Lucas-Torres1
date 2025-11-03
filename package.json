@@ -5,7 +5,7 @@
   "main": "",
   "scripts": {
     "api": "json-server --watch db/db.json --port 3001",
-    "start": "http-server public -p 5173 -c-1"
+    "start": "http-server public -p 5175 -c-1"
   },
   "keywords": [],
   "author": "",
